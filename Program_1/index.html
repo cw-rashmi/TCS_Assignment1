@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Student Details</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <form id="form">
+                    <h1 class="p-3 mb-2 bg-secondary text-white">Program 1: Student Details.</h1>
+                        <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-secondary" id = "home">Home</button>
+                        <button type="button" class="btn btn-outline-secondary" id = "alldetails">Get all details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="addstudent">Add Student Details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="updatestudent">Update student details</button>
+                        <div id="inputbox">
+                            <label for="student">Student Name</label>
+                            <input type="text" class="form-control" id="studentUserInput" placeholder="Student Name">
+                            <label for="student">Student Id</label>
+                            <input type="text" class="form-control" id="studentUserInput2" placeholder="Student ID">
+                            <label for="student">Field</label>
+                            <input type="text" class="form-control" id="studentUserInput3" placeholder="Student Field">
+                            <label for="student">Address</label>
+                            <input type="text" class="form-control" id="studentUserInput4" placeholder="Student Address">
+                            <label for="student">City</label>
+                            <input type="text" class="form-control" id="studentUserInput5" placeholder="Student City">
+                            <button type="submit" class="btn btn-primary" id="add">Create</button>
+                        </div>
+                        </div>
+                </form>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                        <table class="table table-bordered" width = "100%"id="display">
+                            <tr>
+                                <td>Student Name</td>
+                                <td>Field</td>
+                                <td>Address</td>
+                                <td>City</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="col-lg-2"></div>
+        </div>
+    </div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(()=>{
+        const box = $("#inputbox");
+        const display = $("#display");
+        const form = $("#form");
+        const home = $("#home");
+        const add = $("#add");
+        const inputBoxBtn = $("#alldetails");
+        const studentUserInput = $("#studentUserInput");
+        const studentUserInput2 = $("#studentUserInput2");
+        const studentUserInput3 = $("#studentUserInput3");
+        const studentUserInput4 = $("#studentUserInput4");
+        const studentUserInput5 = $("#studentUserInput5");
+        const addstudent = $("#addstudent");
+        const updatestudent = $("#updatestudent");
+        const demo = $("#delete_5c968ed16dd44d2378238e85");
+        const btnclass = $("list-group abc");
+        box.hide();
+        display.hide();
+        const getStudents=()=>{
+            fetch("/getStudentName",{method : "get"}).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                //console.log("In getstudnets function");
+                //console.log(data);
+                displayStudent(data);
+            })
+        }
+
+        getStudents();
+
+        $("list-group abc").click(function(event) {
+        alert(event.target.id);
+    });
+
+        demo.click(()=>{
+            console.log("clicked")
+        })
+
+        home.click(()=>{
+            $('td:nth-child(5)').hide();
+            $('td:nth-child(6)').hide();
+            display.hide();
+            box.hide();
+            })
+            inputBoxBtn.click(()=>{
+                $('td:nth-child(5)').hide();
+                $('td:nth-child(6)').hide();
+                box.hide();
+                display.show();
+            })
+            addstudent.click(()=>{
+                $('td:nth-child(5)').hide();
+                $('td:nth-child(6)').show();
+                display.show();
+                box.show();
+            })
+            updatestudent.click(()=>{
+                $('td:nth-child(5)').show();
+                $('td:nth-child(6)').show();
+                display.show();
+                box.show();
+            })
+
+        const resetStudentInput = ()=>{
+            studentUserInput.val('');
+            studentUserInput2.val('');
+            studentUserInput3.val('');
+            studentUserInput4.val('');
+            studentUserInput5.val('');
+        }
+
+        const buildIDs = (todo)=>{
+            return {
+                editID : "edit_" + todo._id,
+                deleteID : "delete_" + todo._id,
+                listItemID : "listItem_" + todo._id,
+                StudentID : "student_" + todo._id
+            }
+        }
+
+        const buildTemplate = (todo,ids)=>{
+            console.log(ids.editID);
+            console.log(ids.deleteID);
+            return `<tr id="${ids.listItemID}">
+                            <div  id="${ids.StudentID}">
+                                <td>${todo.Name}</td> 
+                                <td>${todo.Field}</td>
+                                <td>${todo.Address}</td>
+                                <td>${todo.City}</td></div>
+                                <td><button type="button" class="btn btn-outline-secondary" text-white" id="${ids.editID}">Edit</button></td>
+                                <td><button type="button" class="btn btn-outline-danger" id="${ids.deleteID}">Delete</button>
+                            </td>
+                </tr>`
+        }
+
+        const editStudent = (todo,StudentID,editID)=>{
+            let editBtn = $(`#${editID}`);
+            editBtn.click(()=>{
+                console.log("clicked...");
+                console.log(studentUserInput.val())
+                console.log(studentUserInput2.val())
+                console.log(studentUserInput3.val())
+                console.log(studentUserInput4.val())
+                console.log(studentUserInput.val())
+                fetch(`/${todo._id}`,{
+                    method: "put",
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    },
+                    body : JSON.stringify({Name : studentUserInput.val(), StudentID:studentUserInput2.val(), Field:studentUserInput3.val(),Address:studentUserInput4.val(),City:studentUserInput5.val()})
+                }).then((response)=>{
+                    return response.json();
+                }).then((data=>{
+                    if(data.ok == 1){
+                        let todoIndex = $(`#${StudentID}`)
+                        todoIndex.html(data.value.todo);
+                        resetStudentInput();
+                    }
+                }))
+            })
+        }
+
+        const deleteStudent = (todo,listItemID,deleteID)=>{
+            const deleteBtn = $(`#${deleteID}`);
+            //console.log(deleteID);
+            deleteBtn.click(()=>{
+                //console.log()
+                fetch(`/${todo._id}`,{
+                    method: "delete"
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.ok == 1){
+                        $(`#${listItemID}`).remove();
+                    }
+                });
+            });
+            
+        }
+
+        const displayStudent = (data)=>{
+            //console.log(data);
+            data.forEach((todo) => {
+                let ids = buildIDs(todo);
+                display.append(buildTemplate(todo,ids));
+                editStudent(todo,ids.StudentID,ids.editID);
+                deleteStudent(todo,ids.listItemID,ids.deleteID);
+            });
+        }
+
+        add.click((e)=>{
+            $('td:nth-child(5)').hide();
+            $('td:nth-child(6)').show();
+            e.preventDefault();
+                //console.log("here");
+                    fetch('/',{
+                    method : 'post',
+                    body : JSON.stringify({Name : studentUserInput.val(), StudentID:studentUserInput2.val(), Field:studentUserInput3.val(),Address:studentUserInput4.val(),City:studentUserInput5.val()}),
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    }
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.result.ok == 1 && data.result.n == 1){
+                        let ids = buildIDs(data.document);
+                        display.append(buildTemplate(data.document, ids));
+                        editStudent(data.document,ids.StudentID,ids.editID);
+                        deleteStudent(data.document,ids.listItemID,ids.deleteID);
+                    }
+                    resetStudentInput();
+            })
+        });
+    });
+    </script>
+</body>
+</html>
