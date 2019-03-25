@@ -46,3 +46,4 @@ node app
 The program is configured to accept requests from localhost and port 3000. So just open brower of any choice and run https://localhost:3000
 
 The home page:
+![The home page image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_1/screenshots/home.png)
