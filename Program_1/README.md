@@ -4,19 +4,12 @@
 
 The Program is developed using node.js and MongoDB. The pragram provides web page interface to perform different operations. The schema used for the database is
 
-\begin{table}[]
-\centering
-\caption{My caption}
-\label{my-label}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Field Name} & \textbf{Data Type} \\ \hline
-StudentId     & byte32  \\ \hline
-StudentName     & string \\ \hline
-Address     & string \\ \hline
-City     & string \\ \hline
-\end{tabular}
-\end{table}
+| Field Name       | Data Type         |
+| ------------- |:-------------:|
+| StudentId     | byte32 | 
+| StudentName      | string      |  
+| Address | string      | 
+| City | string      | 
 
 The operations performed are:
 
