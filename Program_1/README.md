@@ -13,10 +13,10 @@ The Program is developed using node.js and MongoDB. The pragram provides web pag
 
 The operations performed are:
 
--Adding the new student details with StudentId as unique field
--Get the details of added student
--Updating the student details
--Get the updated student details
+* Adding the new student details with StudentId as unique field
+* Get the details of added student
+* Updating the student details
+* Get the updated student details
 
 ### Prerequisites
 
