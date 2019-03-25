@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Student Details</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <form id="form">
+                    <h1 class="p-3 mb-2 bg-secondary text-white">Program 4: Employee Details.</h1>
+                        <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-secondary" id = "home">Home</button>
+                        <button type="button" class="btn btn-outline-secondary" id = "alldetails">Get all details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="addemployee">Add Employee Details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="updateemployee">Update Employee details</button>
+                        <div id="inputbox">
+                            <label for="employee">Student Name</label>
+                            <input type="text" class="form-control" id="employeeUserInput" placeholder="Employee Name">
+                            <label for="employee">Student Id</label>
+                            <input type="text" class="form-control" id="employeeUserInput2" placeholder="Employee ID">
+                            <label for="employee">Field</label>
+                            <input type="text" class="form-control" id="employeeUserInput3" placeholder="Employee Field">
+                            <label for="employee">Address</label>
+                            <input type="text" class="form-control" id="employeeUserInput4" placeholder="Employee Address">
+                            <label for="employee">City</label>
+                            <input type="text" class="form-control" id="employeeUserInput5" placeholder="Employee City">
+                            <button type="submit" class="btn btn-primary" id="add">Create</button>
+                        </div>
+                        </div>
+                </form>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                        <table class="table table-bordered" width = "100%"id="display">
+                            <tr>
+                                <td>Employee Name</td>
+                                <td>Field</td>
+                                <td>Address</td>
+                                <td>City</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="col-lg-2"></div>
+        </div>
+    </div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(()=>{
+        const box = $("#inputbox");
+        const display = $("#display");
+        const form = $("#form");
+        const home = $("#home");
+        const add = $("#add");
+        const inputBoxBtn = $("#alldetails");
+        const employeeUserInput = $("#employeeUserInput");
+        const employeeUserInput2 = $("#employeeUserInput2");
+        const employeeUserInput3 = $("#employeeUserInput3");
+        const employeeUserInput4 = $("#employeeUserInput4");
+        const employeeUserInput5 = $("#employeeUserInput5");
+        const addemployee = $("#addemployee");
+        const updateemployee = $("#updateemployee");
+        box.hide();
+        display.hide();
+        const getEmployees=()=>{
+            console.log("here");
+            fetch("/getEmployeeName",{method : "get"}).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                //console.log("In getstudnets function");
+                //console.log(data);
+                displayEmployees(data);
+            })
+        }
+
+        getEmployees();
+
+        home.click(()=>{
+                $('td:nth-child(5)').hide();
+                $('td:nth-child(6)').hide();
+                display.hide();
+                box.hide();
+            })
+            inputBoxBtn.click(()=>{
+                $('td:nth-child(5)').hide();
+                $('td:nth-child(6)').hide();
+                box.hide();
+                display.show();
+            })
+            addemployee.click(()=>{
+                $('td:nth-child(5)').hide();
+                $('td:nth-child(6)').show();
+                display.show();
+                box.show();
+            })
+            updateemployee.click(()=>{
+                $('td:nth-child(5)').show();
+                $('td:nth-child(6)').show();
+                display.show();
+                box.show();
+            })
+
+        const resetEmployeesInput = ()=>{
+            employeeUserInput.val('');
+            employeeUserInput2.val('');
+            employeeUserInput3.val('');
+            employeeUserInput4.val('');
+            employeeUserInput5.val('');
+        }
+
+        const buildIDs = (todo)=>{
+            return {
+                editID : "edit_" + todo._id,
+                deleteID : "delete_" + todo._id,
+                listItemID : "listItem_" + todo._id,
+                EmployeesID : "student_" + todo._id
+            }
+        }
+
+        const buildTemplate = (todo,ids)=>{
+            console.log(ids.editID);
+            console.log(ids.deleteID);
+            return `<tr id="${ids.listItemID}">
+                            <div  id="${ids.EmployeesID}">
+                                <td>${todo.Name}</td> 
+                                <td>${todo.Field}</td>
+                                <td>${todo.Address}</td>
+                                <td>${todo.City}</td></div>
+                                <td><button type="button" class="btn btn-outline-secondary" text-white id="${ids.editID}">Edit</button></td>
+                                <td><button type="button" class="btn btn-outline-danger" id="${ids.deleteID}">Delete</button>
+                            </td>
+                </tr>`
+        }
+
+        const editEmployees = (todo,EmployeesID,editID)=>{
+            let editBtn = $(`#${editID}`);
+            editBtn.click(()=>{
+                fetch(`/${todo._id}`,{
+                    method: "put",
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    },
+                    body : JSON.stringify({Name : employeeUserInput.val(), EmployeeID:employeeUserInput2.val(), Field:employeeUserInput3.val(),Address:employeeUserInput4.val(),City:employeeUserInput5.val()})
+                }).then((response)=>{
+                    return response.json();
+                }).then((data=>{
+                    if(data.ok == 1){
+                        let todoIndex = $(`#${EmployeesID}`)
+                        todoIndex.html(data.value.todo);
+                        resetEmployeesInput();
+                    }
+                }))
+            })
+        }
+
+        const deleteEmployees = (todo,listItemID,deleteID)=>{
+            const deleteBtn = $(`#${deleteID}`);
+            //console.log(deleteID);
+            deleteBtn.click(()=>{
+                //console.log()
+                fetch(`/${todo._id}`,{
+                    method: "delete"
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.ok == 1){
+                        $(`#${listItemID}`).remove();
+                    }
+                });
+            });
+            
+        }
+
+        const displayEmployees = (data)=>{
+            console.log(data);
+            data.forEach((todo) => {
+                let ids = buildIDs(todo);
+                display.append(buildTemplate(todo,ids));
+                editEmployees(todo,ids.EmployeesID,ids.editID);
+                deleteEmployees(todo,ids.listItemID,ids.deleteID);
+            });
+        }
+
+        add.click((e)=>{
+            console.log("here")
+            $('td:nth-child(5)').hide();
+            $('td:nth-child(6)').show();
+            //console.log(studentUserInput.val());
+            e.preventDefault();
+                console.log("here");
+                    fetch('/',{
+                    method : 'post',
+                    body : JSON.stringify({Name : employeeUserInput.val(), EmployeetID:employeeUserInput2.val(), Field:employeeUserInput3.val(),Address:employeeUserInput4.val(),City:employeeUserInput5.val()}),
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    }
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.result.ok == 1 && data.result.n == 1){
+                        let ids = buildIDs(data.document);
+                        display.append(buildTemplate(data.document, ids));
+                        editEmployees(data.document,ids.EmployeesID,ids.editID);
+                        deleteEmployees(data.document,ids.listItemID,ids.deleteID);
+                    }
+                    resetEmployeesInput();
+            })
+        });
+    });
+    </script>
+</body>
+</html>
