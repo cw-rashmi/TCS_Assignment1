@@ -1,2 +1,48 @@
-# TCS_Assignment1
-First TCS Internship Assignment Using node.js and MongoDB
+# TCS Assignment Program 1-Student Details
+
+## Getting Started
+
+The Program is developed using node.js and MongoDB. The pragram provides web page interface to perform different operations. The schema used for the database is
+
+| Field Name       | Data Type         |
+| ------------- |:-------------:|
+| StudentId     | byte32 | 
+| StudentName      | string      |  
+| Address | string      | 
+| City | string      | 
+
+The operations performed are:
+
+* Adding the new student details with StudentId as unique field
+* Get the details of added student
+* Updating the student details
+* Get the updated student details
+
+### Prerequisites
+
+In order to run this program one need to install node.js and mongodb server
+
+ Set npm of packages used are:
+* mongodb
+* express
+* body-parser
+* path
+
+The command used for installing the packages is 
+```
+npm install package-name
+```
+Packages are already uploaded in the node_modules folder and no need to install the packages to run the code
+
+### Installing
+
+First run app.js file from command prompt.
+The command used for running the file is
+
+```
+node app
+```
+
+The program is configured to accept requests from localhost and port 3000. So just open brower of any choice and run https://localhost:3000
+
+The home page:
