@@ -4,7 +4,6 @@
 
 The Program is developed using node.js and MongoDB. The pragram provides web page interface to perform different operations. The schema used for the database is
 
-/***
 \begin{table}[]
 \centering
 \caption{My caption}
@@ -18,7 +17,6 @@ Address     & string \\ \hline
 City     & string \\ \hline
 \end{tabular}
 \end{table}
-***/
 
 The operations performed are:
 
