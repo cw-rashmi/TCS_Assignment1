@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Borrower Request Details</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <form id="form">
+                    <h1 class="p-3 mb-2 bg-secondary text-white">Program 3: Borrower Request.</h1>
+                        <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-secondary" id = "home">Home</button>
+                        <button type="button" class="btn btn-outline-secondary" id = "alldetails">Get Request details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="addborrower">Add New Borrow Request Details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="updateborrower">Update Request details</button>
+                        <div id="inputbox">
+                            <label for="borrower">Account</label>
+                            <input type="text" class="form-control" id="borrowerUserInput" placeholder="Account">
+                            <label for="borrower">Request Id</label>
+                            <input type="text" class="form-control" id="borrowerUserInput2" placeholder="borrower ID">
+                            <label for="borrower">Requested Amount</label>
+                            <input type="text" class="form-control" id="borrowerUserInput3" placeholder="Requested Amount">
+                            <button type="submit" class="btn btn-primary" id="add">Create</button>
+                        </div>
+                        </div>
+                </form>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                        <table class="table table-bordered" width = "100%"id="display">
+                            <tr>
+                                <td>Account</td>
+                                <td>Request Id</td>
+                                <td>Requested Amount</td>
+                                <td>Status</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="col-lg-2"></div>
+        </div>
+    </div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(()=>{
+        const box = $("#inputbox");
+        const display = $("#display");
+        const form = $("#form");
+        const home = $("#home");
+        const add = $("#add");
+        const inputBoxBtn = $("#alldetails");
+        const borrowerUserInput = $("#borrowerUserInput");
+        const borrowerUserInput2 = $("#borrowerUserInput2");
+        const borrowerUserInput3 = $("#borrowerUserInput3");
+        const addborrower = $("#addborrower");
+        const updateborrower = $("#updateborrower");
+        const Status = ["Open","Funded","Closed"];
+        box.hide();
+        display.hide();
+        const getborrowers=()=>{
+            console.log("here");
+            fetch("/getBorrowerDetails",{method : "get"}).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                //console.log("In getstudnets function");
+                //console.log(data);
+                displayborrowers(data);
+            })
+        }
+
+        getborrowers();
+
+        home.click(()=>{
+                display.hide();
+                box.hide();
+            })
+            inputBoxBtn.click(()=>{
+                box.hide();
+                display.show();
+            })
+            addborrower.click(()=>{
+                display.show();
+                box.show();
+            })
+            updateborrower.click(()=>{
+                display.show();
+                box.show();
+            })
+
+        const resetborrowersInput = ()=>{
+            borrowerUserInput.val('');
+            borrowerUserInput2.val('');
+            borrowerUserInput3.val('');
+        }
+
+        const buildIDs = (todo)=>{
+            return {
+                editID : "edit_" + todo._id,
+                deleteID : "delete_" + todo._id,
+                listItemID : "listItem_" + todo._id,
+                borrowersID : "borrower_" + todo._id
+            }
+        }
+
+        const buildTemplate = (todo,ids)=>{
+            console.log(ids.listItemID)
+            return `<tr id="${ids.listItemID}">
+                            <div  id="${ids.borrowersID}">
+                                <td>${todo.account}</td>
+                                <td>${todo.RequestID}</td> 
+                                <td>${todo.RequestedAmount}</td>
+                                <td>${todo.status}</td>
+                                <td><button type="button" class="btn btn-outline-secondary" text-white id="${ids.editID}">Edit</button></td>
+                                <td><button type="button" class="btn btn-outline-danger" id="${ids.deleteID}">Delete</button>
+                            </td>
+                            </div>
+                </tr>`
+        }
+
+        const editborrowers = (todo,borrowersID,editID)=>{
+            let editBtn = $(`#${editID}`);
+            var status = "";
+            var final_status = "";
+            editBtn.click(()=>{
+                var RequestedAmount = parseInt(borrowerUserInput3.val());
+                var currentTotal = checkStatus();
+                var currentAmount = parseInt($(`#${"listItem_"+todo._id} td:nth-child(3)`).text());
+                var total = currentTotal + RequestedAmount - currentAmount;
+                console.log(currentTotal, currentAmount, RequestedAmount, total);
+                if(total <= 10000){
+                    status = "allowed";
+                }
+                else{
+                    status = "not allowed"
+                }
+                var finalAmount = 0;
+                if(status == "allowed"){
+                    finalAmount = RequestedAmount;
+                    console.log(status)
+                    final_status = Status[0];
+                    console.log(final_status);
+                }
+                else{
+                    finalAmount = currentAmount;
+                    final_status = Status[2];
+                    fetch(`/update`,{
+                        method: "put",
+                        headers : {
+                            "Content-Type" : "application/json; charset=utf-8"
+                        },
+                        body : JSON.stringify({account : borrowerUserInput.val(), status:final_status})
+                    }).then((response)=>{
+                        console.log(response)
+                        return response.json();
+                    }).then((data=>{
+                        if(data.ok == 1){
+                            // let todoIndex = $(`#${borrowersID}`)
+                            // todoIndex.html(data.value.todo);
+                            // resetborrowersInput();  
+                        }
+                }))
+                }
+                fetch(`/ap/${todo._id}`,{
+                        method: "put",
+                        headers : {
+                            "Content-Type" : "application/json; charset=utf-8"
+                        },
+                        body : JSON.stringify({account : borrowerUserInput.val(), RequestID:borrowerUserInput2.val(), RequestedAmount:finalAmount,status:final_status})
+                    }).then((response)=>{
+                        return response.json();
+                    }).then((data=>{
+                        if(data.ok == 1){
+                            let todoIndex = $(`#${borrowersID}`)
+                            todoIndex.html(data.value.todo);
+                            resetborrowersInput();  
+                        }
+                }))
+            })
+        }
+
+        const deleteborrowers = (todo,listItemID,deleteID)=>{
+            const deleteBtn = $(`#${deleteID}`);
+            deleteBtn.click(()=>{
+                fetch(`/${todo._id}`,{
+                    method: "delete"
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.ok == 1){
+                        $(`#${listItemID}`).remove();
+                    }
+                });
+            });
+            
+        }
+
+        const displayborrowers = (data)=>{
+            data.forEach((todo) => {
+                let ids = buildIDs(todo);
+                display.append(buildTemplate(todo,ids));
+                editborrowers(todo,ids.borrowersID,ids.editID);
+                deleteborrowers(todo,ids.listItemID,ids.deleteID);
+            });
+        }
+
+        const checkStatus = ()=>{
+            const PresentAmountList = [];
+            var totalAmount = 0;
+            var status = "";
+            const array = $('td:nth-child(3)').text();
+            console.log(array);
+            $('td:nth-child(3)').each(function() {
+                PresentAmountList.push($(this).text());
+            });
+            console.log(PresentAmountList);
+            for(var i=1; i<PresentAmountList.length; i++){
+                totalAmount += parseInt(PresentAmountList[i]);
+            }
+            console.log(totalAmount);
+            if(totalAmount<10000){
+                status = "allowed";
+            }
+            else{
+                status = "not allowed"
+            }
+            return totalAmount;
+        }
+
+        add.click((e)=>{
+            e.preventDefault();
+            var currentTotal = checkStatus();
+            var status = "";
+            if(currentTotal <= 10000){
+                    status = "allowed";
+                }
+                else{
+                    status = "not allowed"
+                }
+            if(status == "allowed"){
+                console.log("allowed");
+                var final_status = Status[0];
+                fetch('/',{
+                    method : 'post',
+                    body : JSON.stringify({account : borrowerUserInput.val(), RequestID:borrowerUserInput2.val(), RequestedAmount:borrowerUserInput3.val(),status:final_status}),
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    }
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.result.ok == 1 && data.result.n == 1){
+                        let ids = buildIDs(data.document);
+                        display.append(buildTemplate(data.document, ids));
+                        editborrowers(data.document,ids.borrowersID,ids.editID);
+                        deleteborrowers(data.document,ids.listItemID,ids.deleteID);
+                    }
+                    resetborrowersInput();
+            })
+            }
+            else{
+                console.log("not allowed");
+            }
+        });
+    });
+    </script>
+</body>
+</html>
