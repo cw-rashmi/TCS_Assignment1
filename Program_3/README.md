@@ -52,16 +52,16 @@ node app
 * The home page:
 ![The home page image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_3/screenshots /home.png)
 
-* The details of the present students can be seen in the Get All details tab:
-![The Student Details image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_3/screenshots/details.png)
+* The details of the present  can be seen in the Get All details tab:
+![The Borrower Request image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_3/screenshots/details.png)
 
-* In order to add new student one can fill student details in the Add Student Details Tab and press Create button:
-![The home page image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_3/screenshots/add.png)
+* In order to add new borrower request one can fill details in the Add New Borrow Request Details Tab and press Create button:
+![The Borrower Request home page image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_3/screenshots/add.png)
 
-* The New Student details then can be checked in the Get All Details page
+* The New Borrower Request details then can be checked in the Get Request Details page
 
-* To edit the present student details the Update Student Details tab is created. The student details can be filled in the respective columns and then the corresponding Edit button from the row of the student for which the details need to be updated can be pressed. The updated changes then can be verified in the Get All Details tab.
+* To edit the presentborrow request details the Update Request Details tab is created. The details can be filled in the respective columns and then the corresponding Edit button from the row for which the details need to be updated can be pressed. The updated changes then can be verified in the Get Requset Details tab.
 ![The home page image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_3/screenshots/update.png)
 
-* To delete the existing students the corresponding delete button from the row need to be pressed:
+* To delete the existing requests the corresponding delete button from the row need to be pressed:
 ![The home page image is not found](https://github.com/cw-rashmi/TCS_Assignment1/blob/master/Program_1/screenshots/delete.png)
