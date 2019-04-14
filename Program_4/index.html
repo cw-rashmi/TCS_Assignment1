@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Student Details</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <form id="form">
+                    <h1 class="p-3 mb-2 bg-secondary text-white">Program 4: Student Employee Details.</h1>
+                        <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-secondary" id = "home">Home</button>
+                        <button type="button" class="btn btn-outline-secondary" id = "studentalldetails">Get Student Deatils</button>
+                        <button type="button" class="btn btn-outline-secondary" id = "departmentalldetails">Get Department Deatils</button>
+                        <button type="button" class="btn btn-outline-secondary" id="addstudent">Add Student Details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="adddepartment">Add Department Details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="updatestudent">Update student details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="updatedepartment">Update Department details</button>
+                        <button type="button" class="btn btn-outline-secondary" id="getstudentbydepartment">Get Student details By Department</button>
+                        <div id="studentinputbox">
+                            <label for="student">Student Name</label>
+                            <input type="text" class="form-control" id="studentUserInput" placeholder="Student Name">
+                            <label for="student">Student Id</label>
+                            <input type="text" class="form-control" id="studentUserInput2" placeholder="Student ID">
+                            <label for="student">Department Id</label>
+                            <input type="text" class="form-control" id="studentUserInput3" placeholder="Department ID">
+                            <label for="student">Address</label>
+                            <input type="text" class="form-control" id="studentUserInput4" placeholder="Student Address">
+                            <label for="student">City</label>
+                            <input type="text" class="form-control" id="studentUserInput5" placeholder="Student City">
+                            <button type="submit" class="btn btn-primary" id="addNewStudent">Create</button>
+                        </div>
+                        <div id="departmentinputbox">
+                            <label for="student">Department Name</label>
+                            <input type="text" class="form-control" id="departmentUserInput" placeholder="Department Name">
+                            <label for="student">Department Id</label>
+                            <input type="text" class="form-control" id="departmentUserInput2" placeholder="Department ID">
+                            <label for="student">Staff Name</label>
+                            <input type="text" class="form-control" id="departmentUserInput3" placeholder="Staff Name">
+                            <button type="submit" class="btn btn-primary" id="addNewDepartment">Create</button>
+                        </div>
+                        </div>
+                </form>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                        <table class="table table-bordered" width = "100%" id="displayStudent">
+                            <tr>
+                                <td>Student Name</td>
+                                <td>Department Name</td>
+                                <td>Address</td>
+                                <td>City</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered" width = "100%" id="displayDepartment">
+                            <tr>
+                                <td>Department Name</td>
+                                <td>Staff</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered" width = "100%" id="final">
+                            <tr>
+                                <td>Student Name</td>
+                                <td>Department Name</td>
+                                <td>Address</td>
+                                <td>City</td>
+                                <td>Staff</td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="col-lg-2"></div>
+        </div>
+    </div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(()=>{
+        const displayStudent = $("#displayStudent");
+        const displayDepartment = $("#displayDepartment");
+        const form = $("#form");
+        const home = $("#home");
+        const final = $("#final");
+        const addNewStudent = $("#addNewStudent");
+        const addNewDepartment = $("#addNewDepartment");
+        const studentinputBoxBtn = $("#studentalldetails");
+        const departmentinputBoxBtn = $("#departmentalldetails");
+        const studentUserInput = $("#studentUserInput");
+        const studentUserInput2 = $("#studentUserInput2");
+        const studentUserInput3 = $("#studentUserInput3");
+        const studentUserInput4 = $("#studentUserInput4");
+        const studentUserInput5 = $("#studentUserInput5");
+        const departmentUserInput = $("#departmentUserInput");
+        const departmentUserInput2 = $("#departmentUserInput2");
+        const departmentUserInput3 = $("#departmentUserInput3");
+        const addstudent = $("#addstudent");
+        const adddepartment = $("#adddepartment");
+        const updatestudent = $("#updatestudent");
+        const updatedepartment = $("#updatedepartment");
+        const studentinputbox = $("#studentinputbox");
+        const departmentinputbox = $("#departmentinputbox")
+        const demo = $("#delete_5c968ed16dd44d2378238e85");
+        const btnclass = $("list-group abc");
+        const getstudentbydepartment = $("#getstudentbydepartment");
+        studentinputbox.hide();
+        departmentinputbox.hide();
+        displayStudent.hide();
+        displayDepartment.hide();
+         final.hide();
+        const getStudents=()=>{
+            fetch("/getStudentName",{method : "get"}).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                //console.log("In getstudnets function");
+                //console.log(data);
+                displayStudents(data);
+            })
+        }
+
+        const getDepartments=()=>{
+            fetch("/getDepartmentName",{method : "get"}).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                //console.log("In getstudnets function");
+                //console.log(data);
+                displayDepartments(data);
+            })
+        }
+
+        getStudents();
+        getDepartments();
+
+        const getstudentbydept=()=>{
+            fetch("/getstudentbydept",{method : "get"}).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                //console.log("In getstudnets function");
+                console.log(data);
+                displayStudentsbydept(data);
+            })
+        }
+
+        const displayStudentsbydept=(data)=>{
+            data.forEach((todo) => {
+                console.log(todo.student_details[0]["DepartmentName"]);
+                final.append(buildFinalTemplate(todo));
+            })
+        }
+
+        $("list-group abc").click(function(event) {
+        alert(event.target.id);
+    });
+
+        demo.click(()=>{
+            console.log("clicked")
+        })
+
+        getstudentbydepartment.click(()=>{
+            final.show();
+            displayDepartment.hide();
+            studentinputbox.hide();
+            departmentinputbox.hide();
+            displayStudent.hide();
+            getstudentbydept();
+        })
+
+        home.click(()=>{
+            // $('td:nth-child(5)').hide();
+            // $('td:nth-child(6)').hide();
+            final.hide();
+            displayStudent.hide();
+            displayDepartment.hide();
+            studentinputbox.hide();
+            departmentinputbox.hide();
+            })
+            studentinputBoxBtn.click(()=>{
+                // $('td:nth-child(5)').hide();
+                // $('td:nth-child(6)').hide();
+                 final.hide();
+                studentinputbox.hide();
+                departmentinputbox.hide();
+                displayDepartment.hide();
+                displayStudent.show();
+            })
+            departmentinputBoxBtn.click(()=>{
+                // $('td:nth-child(5)').hide();
+                // $('td:nth-child(6)').hide();
+                 final.hide();
+                studentinputbox.hide();
+                departmentinputbox.hide();
+                displayDepartment.show();
+                displayStudent.hide();
+            })
+            addstudent.click(()=>{
+                // $('td:nth-child(5)').hide();
+                // $('td:nth-child(6)').show();
+                 final.hide();
+                displayStudent.show();
+                displayDepartment.hide();
+                departmentinputbox.hide();
+                studentinputbox.show();
+            })
+            adddepartment.click(()=>{
+                // $('td:nth-child(5)').hide();
+                // $('td:nth-child(6)').show();
+                 final.hide();
+                displayDepartment.show();
+                displayStudent.hide();
+                studentinputbox.hide();
+                departmentinputbox.show();
+            })
+            updatestudent.click(()=>{
+                // $('td:nth-child(5)').show();
+                // $('td:nth-child(6)').show();
+                 final.hide();
+                displayStudent.show();
+                displayDepartment.hide();
+                studentinputbox.show();
+                departmentinputbox.hide();
+            })
+            updatedepartment.click(()=>{
+                // $('td:nth-child(5)').show();
+                // $('td:nth-child(6)').show();
+                 final.hide();
+                displayDepartment.show();
+                displayStudent.hide();
+                departmentinputbox.show();
+                studentinputbox.hide();
+            })
+
+        const resetStudentInput = ()=>{
+            studentUserInput.val('');
+            studentUserInput2.val('');
+            studentUserInput3.val('');
+            studentUserInput4.val('');
+            studentUserInput5.val('');
+        }
+
+        const resetDepartmentInput = ()=>{
+            departmentUserInput.val('');
+            departmentUserInput2.val('');
+            departmentUserInput3.val('');
+        }
+
+        const buildStudentIDs = (todo)=>{
+            return {
+                editID : "edit_" + todo._id,
+                deleteID : "delete_" + todo._id,
+                listItemID : "listItem_" + todo._id,
+                StudentID : "student_" + todo._id,
+                DepartmentID : "department_" + todo._id 
+            }
+        }
+
+        const buildDepartmentIDs = (todo)=>{
+            return {
+                editID : "edit_" + todo._id,
+                deleteID : "delete_" + todo._id,
+                listItemID : "listItem_" + todo._id,
+                DepartmentID : "department_" + todo._id 
+            }
+        }
+
+        const buildStudentTemplate = (todo,ids)=>{
+            console.log(ids.editID);
+            console.log(ids.deleteID);
+            return `<tr id="${ids.listItemID}">
+                            <div  id="${ids.StudentID}">
+                                <td>${todo.StudentName}</td> 
+                                <td>${todo.DepartmentId}</td>
+                                <td>${todo.Address}</td>
+                                <td>${todo.City}</td></div>
+                                <td><button type="button" class="btn btn-outline-secondary" text-white" id="${ids.editID}">Edit</button></td>
+                                <td><button type="button" class="btn btn-outline-danger" id="${ids.deleteID}">Delete</button>
+                            </td>
+                </tr>`
+        }
+
+        const buildDepartmentTemplate = (todo,ids)=>{
+            console.log(ids.editID);
+            console.log(ids.deleteID);
+            return `<tr id="${ids.listItemID}">
+                            <div  id="${ids.DepartmentID}">
+                                <td>${todo.DepartmentName}</td> 
+                                <td>${todo.Staff}</td>
+                                <td><button type="button" class="btn btn-outline-secondary" text-white" id="${ids.editID}">Edit</button></td>
+                                <td><button type="button" class="btn btn-outline-danger" id="${ids.deleteID}">Delete</button>
+                            </td>
+                </tr>`
+        }
+
+        const buildFinalTemplate = (todo)=>{
+            return `<tr id="${todo.StudentID}">
+                            <div  id="${todo.StudentID}">
+                                <td>${todo.StudentName}</td>
+                                <td>${todo.student_details[0]["DepartmentName"]}</td> 
+                                <td>${todo.Address}</td>
+                                <td>${todo.City}</td>
+                                <td>${todo.student_details[0]["Staff"]}</td> </div>
+                </tr>`
+        }
+
+        const editStudent = (todo,StudentID,editID)=>{
+            let editBtn = $(`#${editID}`);
+            editBtn.click(()=>{
+                console.log("clicked...");
+                fetch(`/student/${todo._id}`,{
+                    method: "put",
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    },
+                    body : JSON.stringify({StudentName : studentUserInput.val(), StudentId:studentUserInput2.val(), DepartmentId:studentUserInput3.val(),Address:studentUserInput4.val(),City:studentUserInput5.val()})
+                }).then((response)=>{
+                    return response.json();
+                }).then((data=>{
+                    if(data.ok == 1){
+                        let todoIndex = $(`#${StudentID}`)
+                        todoIndex.html(data.value.todo);
+                        resetStudentInput();
+                    }
+                }))
+            })
+        }
+
+        const editDepartment = (todo,DepartmentID,editID)=>{
+            let editBtn = $(`#${editID}`);
+            editBtn.click(()=>{
+                console.log("clicked...");
+                fetch(`/department/${todo._id}`,{
+                    method: "put",
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    },
+                    body : JSON.stringify({DepartmentName : departmentUserInput.val(), DepartmentId:departmentUserInput2.val(),Staff:departmentUserInput3.val()})
+                }).then((response)=>{
+                    return response.json();
+                }).then((data=>{
+                    if(data.ok == 1){
+                        let todoIndex = $(`#${DepartmentID}`)
+                        todoIndex.html(data.value.todo);
+                        resetDepartmentInput();
+                    }
+                }))
+            })
+        }
+
+        const deleteStudent = (todo,listItemID,deleteID)=>{
+            const deleteBtn = $(`#${deleteID}`);
+            //console.log(deleteID);
+            deleteBtn.click(()=>{
+                //console.log()
+                fetch(`/student/${todo._id}`,{
+                    method: "delete"
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.ok == 1){
+                        $(`#${listItemID}`).remove();
+                    }
+                });
+            });
+            
+        }
+
+        const deleteDepartment = (todo,listItemID,deleteID)=>{
+            const deleteBtn = $(`#${deleteID}`);
+            //console.log(deleteID);
+            deleteBtn.click(()=>{
+                //console.log()
+                fetch(`/department/${todo._id}`,{
+                    method: "delete"
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.ok == 1){
+                        $(`#${listItemID}`).remove();
+                    }
+                });
+            });
+            
+        }
+
+        const displayStudents = (data)=>{
+            //console.log(data);
+            data.forEach((todo) => {
+                let ids = buildStudentIDs(todo);
+                displayStudent.append(buildStudentTemplate(todo,ids));
+                editStudent(todo,ids.StudentID,ids.editID);
+                deleteStudent(todo,ids.listItemID,ids.deleteID);
+            });
+        }
+
+        const displayDepartments = (data)=>{
+            //console.log(data);
+            data.forEach((todo) => {
+                let ids = buildDepartmentIDs(todo);
+                displayDepartment.append(buildDepartmentTemplate(todo,ids));
+                editDepartment(todo,ids.StudentID,ids.editID);
+                deleteDepartment(todo,ids.listItemID,ids.deleteID);
+            });
+        }
+
+        addNewStudent.click((e)=>{
+            // $('td:nth-child(5)').hide();
+            // $('td:nth-child(6)').show();
+            e.preventDefault();
+                //console.log("here");
+                    fetch('/addstudent',{
+                    method : 'post',
+                    body : JSON.stringify({StudentName : studentUserInput.val(), StudentId:studentUserInput2.val(), DepartmentId:studentUserInput3.val(),Address:studentUserInput4.val(),City:studentUserInput5.val()}),
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    }
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.result.ok == 1 && data.result.n == 1){
+                        let ids = buildStudentIDs(data.document);
+                        displayStudent.append(buildStudentTemplate(data.document, ids));
+                        editStudent(data.document,ids.StudentID,ids.editID);
+                        deleteStudent(data.document,ids.listItemID,ids.deleteID);
+                    }
+                    resetStudentInput();
+            })
+        });
+
+        addNewDepartment.click((e)=>{
+            // $('td:nth-child(5)').hide();
+            // $('td:nth-child(6)').show();
+            e.preventDefault();
+                //console.log("here");
+                    fetch('/adddepartment',{
+                    method : 'post',
+                    body : JSON.stringify({DepartmentName : departmentUserInput.val(), DepartmentId:departmentUserInput2.val(),Staff:departmentUserInput3.val()}),
+                    headers : {
+                        "Content-Type" : "application/json; charset=utf-8"
+                    }
+                }).then((response)=>{
+                    return response.json();
+                }).then((data)=>{
+                    if(data.result.ok == 1 && data.result.n == 1){
+                        let ids = buildStudentIDs(data.document);
+                        displayDepartment.append(buildDepartmentTemplate(data.document, ids));
+                        editDepartment(data.document,ids.StudentID,ids.editID);
+                        deleteDepartment(data.document,ids.listItemID,ids.deleteID);
+                    }
+                    resetDepartmentInput();
+            })
+        });
+    });
+    </script>
+</body>
+</html>
